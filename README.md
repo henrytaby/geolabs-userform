@@ -5,25 +5,25 @@ Este es un proyecto base en PHP diseñado para ser robusto, escalable y seguir b
 ## ✨ Características Principales
 
 - **Diseño Minimalista:** Interfaz de usuario limpia y centrada en el contenido, construida con **Bootstrap 5**.
-- **Experiencia de Usuario Moderna:**
-    - Validación de datos en tiempo real en el formulario con **jQuery Validation Plugin**.
-    - Comunicación asíncrona con el servidor mediante **AJAX (jQuery)**, evitando recargas de página.
-    - Notificaciones amigables e interactivas para el usuario con **SweetAlert2**.
 - **Backend Robusto:**
     - Desarrollado en **PHP 8+** con una arquitectura Orientada a Objetos.
+    - **ORM Eloquent:** Interacción con la base de datos a través de modelos y una sintaxis expresiva, eliminando SQL manual.
     - Gestión de variables de entorno segura a través de archivos `.env` con la librería `vlucas/phpdotenv`.
-    - Respuestas del servidor en formato **JSON** para una fácil integración con el frontend.
-    - Validación de datos también en el lado del servidor como segunda capa de seguridad.
+    - Validación de datos en el lado del servidor como segunda capa de seguridad.
+- **Experiencia de Usuario (UX) Avanzada:**
+    - Validación de datos en tiempo real en el cliente con **jQuery Validation Plugin**.
+    - Comunicación asíncrona con el servidor mediante **AJAX (jQuery)**.
+    - **Feedback de Carga:** Bloqueo de UI y mensaje "Procesando..." durante el envío para mejorar la UX y evitar envíos duplicados.
+    - **Notificaciones Inteligentes:** Notificaciones amigables con **SweetAlert2**.
+    - **Manejo de Errores Específico:** Respuestas JSON con códigos de error para un feedback preciso (ej. advertencia para emails duplicados, error para datos inválidos).
 - **Seguridad:**
     - Encriptación de contraseñas antes de guardarlas en la base de datos.
-    - Verificación de unicidad para el correo electrónico para evitar registros duplicados.
-- **Base de Datos:**
-    - Interacción con **MySQL**.
-    - Conexión a la base de datos gestionada a través de una clase `Database` para centralizar la configuración.
+    - Verificación de unicidad para el correo electrónico.
+    - Uso de `.gitignore` para mantener datos sensibles fuera del repositorio.
 
 ## 💻 Tecnologías Utilizadas
 
-- **Backend:** PHP 8.0.30+, Composer
+- **Backend:** PHP 8.0.30+, Composer, **Eloquent ORM**
 - **Frontend:** HTML5, CSS3, Bootstrap 5, JavaScript, jQuery, jQuery Validation Plugin, SweetAlert2
 - **Base de Datos:** MySQL
 
@@ -34,108 +34,72 @@ El proyecto sigue una estructura organizada para separar responsabilidades, faci
 ```
 /
 ├── app/
-│   ├── Database.php      # Gestiona la conexión a la BD.
-│   └── User.php          # Modelo de Usuario, lógica de negocio del usuario.
+│   ├── bootstrap.php     # Inicializa la conexión de la BD para Eloquent.
+│   └── User.php          # Modelo de Eloquent que representa la tabla `usuario`.
 ├── assets/
-│   ├── css/
-│   │   └── style.css     # Estilos personalizados.
-│   └── js/
-│       └── main.js       # Lógica del frontend (jQuery, AJAX, validaciones).
-├── vendor/               # Dependencias de Composer.
-├── .env                  # Archivo de variables de entorno (NO versionado).
+│   ├── css/style.css     # Estilos personalizados.
+│   └── js/main.js        # Lógica del frontend (jQuery, AJAX, SweetAlert2).
+├── vendor/               # Dependencias de Composer (Ignorado por Git).
+├── .env                  # Archivo de variables de entorno (Ignorado por Git).
 ├── .env.example          # Plantilla para el archivo .env.
+├── .gitignore            # Define archivos y carpetas a ignorar por Git.
 ├── composer.json         # Define las dependencias PHP.
 ├── index.php             # Vista principal con el formulario de registro.
 ├── register.php          # Endpoint del backend para procesar el registro.
+├── LICENSE.md            # Archivo de licencia del proyecto.
 └── README.md             # Este archivo.
 ```
 
 ## 🚀 Instalación y Puesta en Marcha
 
-Sigue estos pasos para configurar el proyecto en un entorno de desarrollo local o en un servidor.
-
-1.  **Clonar el Repositorio:**
-    ```bash
-    git clone <URL_DEL_REPOSITORIO>
-    cd <NOMBRE_DEL_DIRECTORIO>
-    ```
-
-2.  **Instalar Dependencias:**
-    Asegúrate de tener [Composer](https://getcomposer.org/) instalado y ejecuta:
-    ```bash
-    composer install
-    ```
-
-3.  **Configurar la Base de Datos:**
-    Importa la siguiente estructura de tabla en tu base de datos MySQL.
-
-    ```sql
-    CREATE TABLE `usuario`  (
-      `id` int NOT NULL AUTO_INCREMENT,
-      `nombre` varchar(255) NOT NULL,
-      `apellido` varchar(255) NOT NULL,
-      `password` varchar(255) NOT NULL,
-      `email` varchar(255) NOT NULL,
-      `activo` tinyint NOT NULL DEFAULT 0,
-      PRIMARY KEY (`id`) USING BTREE,
-      UNIQUE KEY `email_unique` (`email`)
-    ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-    ```
-    *Nota: Se ha añadido una clave única (`UNIQUE KEY`) al campo `email` para garantizar la integridad de los datos a nivel de base de datos.*
-
-4.  **Configurar Variables de Entorno:**
-    Crea una copia del archivo `.env.example` y renómbrala a `.env`.
-    ```bash
-    cp .env.example .env
-    ```
-    Luego, edita el archivo `.env` con tus credenciales y configuraciones:
-    ```ini
-    DB_HOST=localhost
-    DB_PORT=3306
-    DB_DATABASE=tu_base_de_datos
-    DB_USERNAME=tu_usuario
-    DB_PASSWORD=tu_contraseña
-
-    # Llave para encriptar/desencriptar datos sensibles. Debe ser una cadena segura y aleatoria.
-    ENCRYPTION_KEY=tu_llave_secreta_generada
-    ```
+1.  **Clonar el Repositorio:** `git clone <URL_DEL_REPOSITORIO>`
+2.  **Instalar Dependencias:** `composer install`
+3.  **Configurar Base de Datos:** Importa el script SQL proporcionado abajo en tu base de datos MySQL.
+4.  **Configurar Entorno:** Copia `.env.example` a `.env` (`cp .env.example .env`) y rellena las variables de la base de datos y la `ENCRYPTION_KEY`.
 
     > **💡 ¿Cómo generar una `ENCRYPTION_KEY` segura?**
-    > Puedes generar una cadena aleatoria y segura desde tu terminal usando OpenSSL (comúnmente disponible en sistemas Linux y macOS).
-    > ```bash
-    > openssl rand -base64 32
-    > ```
-    > Copia el resultado de este comando y pégalo como el valor de `ENCRYPTION_KEY` en tu archivo `.env`.
+    > Ejecuta `openssl rand -base64 32` en tu terminal y copia el resultado.
 
-5.  **Ejecutar el Proyecto:**
-    Sube todos los archivos a tu servidor web (por ejemplo, dentro de `public_html`). Asegúrate de que el servidor web tenga permisos de lectura sobre los archivos. Accede a `index.php` desde tu navegador.
+5.  **Ejecutar:** Sube los archivos a tu servidor web y accede a `index.php`.
+
+```sql
+CREATE TABLE `usuario`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `apellido` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `activo` tinyint NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `email_unique` (`email`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+```
 
 ## ⚙️ Funcionamiento Detallado
 
-1.  **Carga del Formulario:** El usuario accede a `index.php`, que muestra el formulario de registro.
-2.  **Validación en Cliente:** El script `assets/js/main.js` utiliza el plugin **jQuery Validate** para comprobar los campos (`nombre`, `email`, `password`) en tiempo real mientras el usuario escribe, proporcionando feedback instantáneo.
-3.  **Envío con AJAX:** Al hacer clic en "Registrar", `main.js` intercepta el envío del formulario. Previene la recarga de la página y envía los datos mediante una petición `POST` de AJAX al script `register.php`.
-4.  **Procesamiento en Backend (`register.php`):**
-    - El script carga las variables de entorno y las clases `Database` y `User`.
-    - Realiza una **validación en el servidor** para los campos requeridos y sus formatos.
-    - Verifica si ya existe un usuario con el mismo `email` en la base de datos.
-    - Si hay un error de validación o el email ya existe, devuelve una respuesta JSON de error: `{"status": "error", "message": "Mensaje descriptivo del error"}`.
-    - Si todo es correcto, encripta la contraseña utilizando la `ENCRYPTION_KEY` del `.env` y procede a guardar el nuevo usuario en la base de datos a través de la clase `User`.
-    - Devuelve una respuesta JSON de éxito: `{"status": "success", "message": "¡Registro exitoso!"}`.
-5.  **Respuesta en Frontend:**
-    - El callback de la petición AJAX en `main.js` recibe la respuesta JSON.
-    - Utiliza **SweetAlert2** para mostrar un popup de éxito o error basado en el `status` de la respuesta.
-    - Si el registro fue exitoso, el formulario se oculta y se muestra un mensaje de bienvenida con un botón para "Registrar un nuevo usuario", que reinicia la vista.
+1.  **Validación en Cliente:** `main.js` valida el formulario en tiempo real.
+2.  **Envío con Carga:** Al enviar, se deshabilita el botón y un popup de "Procesando..." bloquea la pantalla.
+3.  **Procesamiento en Backend (`register.php`):**
+    - Se inicializa Eloquent a través de `app/bootstrap.php`.
+    - Se valida la data. Si falla, se devuelve un JSON con `success: false` y `error_code: 2`.
+    - Se comprueba si el email existe usando `User::where(...)->exists()`. Si existe, devuelve `error_code: 1`.
+    - Si todo es correcto, se encripta la contraseña y se crea el usuario con `User::create([...])`.
+    - Se devuelve un JSON con `success: true`.
+    - Para errores de validación, el servidor siempre responde con HTTP 200, comunicando el error dentro del JSON.
+4.  **Respuesta en Frontend:**
+    - El callback de AJAX en `main.js` recibe la respuesta.
+    - Se vuelve a habilitar el botón de envío.
+    - Si `response.success` es `true`, se cierra el popup de carga y se muestra la vista de éxito.
+    - Si es `false`, el popup de carga se reemplaza por un SweetAlert de **advertencia** (email duplicado) o de **error** (datos inválidos), según el `error_code`.
+    - El popup de "Error de Servidor" solo aparece ante fallos graves (ej. HTTP 500).
 
 ## 🌱 Futuras Mejoras y Contribuciones
 
-Este proyecto está diseñado para crecer. Algunas ideas para futuras funcionalidades son:
-
 - **Módulo de Login:** Implementar la autenticación de usuarios.
 - **Panel de Usuario:** Crear una sección privada donde el usuario pueda ver sus datos.
-- **Sistema de Ruteo:** Integrar un enrutador simple para manejar diferentes URLs (ej. `/login`, `/dashboard`) de una manera más limpia.
-- **Tests:** Añadir tests unitarios y de integración para asegurar la fiabilidad del código.
-- **Refactorización:** Mejorar la encriptación de la contraseña utilizando `password_hash()` y `password_verify()` de PHP, que es el estándar recomendado y no requiere una llave manual.
+- **Sistema de Ruteo:** Integrar un enrutador para manejar diferentes URLs (ej. `/login`, `/dashboard`).
+- **Tests:** Añadir tests unitarios y de integración.
+- **Refactorización:** Mejorar la encriptación de la contraseña utilizando `password_hash()` y `password_verify()` de PHP, que es el estándar recomendado.
 
 ## 📜 Licencia
 
