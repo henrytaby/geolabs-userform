@@ -8,8 +8,31 @@ use App\Router;
 // Cargar las definiciones de rutas
 $router = Router::load('routes.php');
 
-// Obtener la URI y el método de la petición actual
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+// --- Lógica de Enrutamiento para Subdirectorios ---
+
+// Obtener la ruta de la petición (ej. /henryt/register)
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Obtener la ruta del script base (ej. /henryt/index.php)
+$scriptName = $_SERVER['SCRIPT_NAME'];
+
+// Deducir el directorio base de la aplicación (ej. /henryt)
+$basePath = dirname($scriptName);
+if ($basePath === '/' || $basePath === '\\') {
+    $basePath = '';
+}
+
+// Eliminar el directorio base de la ruta de la petición para obtener la URI limpia
+$uri = $requestUri;
+if (strlen($basePath) > 0 && strpos($requestUri, $basePath) === 0) {
+    $uri = substr($requestUri, strlen($basePath));
+}
+
+// Limpiar la URI para el matching
+$uri = trim($uri, '/');
+
+// --- Fin de la Lógica de Enrutamiento ---
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Despachar la ruta

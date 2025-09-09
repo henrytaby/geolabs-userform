@@ -1,17 +1,30 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Establece la base para las reglas de reescritura en el subdirectorio
+    RewriteBase /henryt/
+
+    # --- REGLAS DE SEGURIDAD EXISTENTES ---
+    # Bloquear acceso a archivos específicos en la raíz
+    RewriteRule ^(\.env|\.env\.example|composer\.json|composer\.lock|routes\.php)$ - [F,L]
+    # Bloquear acceso a directorios completos
+    RewriteRule ^(app|vendor|resources)/ - [F,L]
+    # -------------------------------------
+
+    # --- REGLA PARA EL FRONT CONTROLLER ---
+    # Redirige todas las peticiones que no son a un archivo o directorio existente a index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+    # -------------------------------------
+
+</IfModule>
+
 # Desactivar listado de directorios
 Options -Indexes
 
-# Reglas para denegar acceso a archivos y directorios sensibles
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    # Bloquear acceso a archivos específicos en la raíz
-    RewriteRule ^(\.env|\.env\.example|composer\.json|composer\.lock)$ - [F,L]
-    # Bloquear acceso a directorios completos
-    RewriteRule ^(app|vendor)/ - [F,L]
-</IfModule>
-
 # Bloqueo adicional por si mod_rewrite no está disponible o deshabilitado
-<Files ~ "^(\.env|\.env\.example|composer\.json|composer\.lock)$">
+<Files ~ "^(\.env|\.env\.example|composer\.json|composer\.lock|routes\.php)$">
     Order allow,deny
     Deny from all
 </Files>
