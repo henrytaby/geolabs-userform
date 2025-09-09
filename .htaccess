@@ -1,0 +1,17 @@
+# Desactivar listado de directorios
+Options -Indexes
+
+# Reglas para denegar acceso a archivos y directorios sensibles
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Bloquear acceso a archivos específicos en la raíz
+    RewriteRule ^(\.env|\.env\.example|composer\.json|composer\.lock)$ - [F,L]
+    # Bloquear acceso a directorios completos
+    RewriteRule ^(app|vendor)/ - [F,L]
+</IfModule>
+
+# Bloqueo adicional por si mod_rewrite no está disponible o deshabilitado
+<Files ~ "^(\.env|\.env\.example|composer\.json|composer\.lock)$">
+    Order allow,deny
+    Deny from all
+</Files>

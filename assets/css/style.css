@@ -1,0 +1,9 @@
+/* Estilos para que los mensajes de error de jQuery Validation se integren con Bootstrap */
+.error.invalid-feedback {
+    display: block;
+    color: #dc3545; /* Color de error de Bootstrap */
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}

@@ -1,0 +1,20 @@
+# Ignorar dependencias de Composer
+/vendor/
+
+# Ignorar el archivo de variables de entorno
+# Este archivo es específico de cada entorno y contiene datos sensibles.
+.env
+
+# Ignorar dependencias de Node (si se añaden en el futuro)
+/node_modules/
+
+# Ignorar archivos de log
+*.log
+
+# Ignorar archivos de configuración de IDEs comunes
+.idea/
+.vscode/
+
+# Ignorar archivos del sistema operativo
+.DS_Store
+Thumbs.db
