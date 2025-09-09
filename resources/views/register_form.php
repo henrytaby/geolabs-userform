@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Registro de Usuario - Geolabs</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
@@ -11,12 +11,17 @@
     <!-- Custom CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body>
 
     <div class="container">
         <div class="row justify-content-center align-items-center vh-100">
             <div class="col-md-6 col-lg-5">
-                <div class="card shadow-sm">
+
+                <div class="text-center mb-4">
+                    <img src="https://app.geolabs.cloud/plataforma/areas/main/icons/Logo-Geolabs-1.svg" alt="Geolabs Logo" style="max-width: 220px;">
+                </div>
+
+                <div class="card shadow-sm bg-dark bg-opacity-75">
                     <div class="card-body p-4">
                         <div id="registration-form-container">
                             <h3 class="card-title text-center mb-4">Crear una Cuenta</h3>
@@ -38,18 +43,18 @@
                                     <input type="password" class="form-control" id="password" name="password" required minlength="7">
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                                    <button type="submit" class="btn btn-custom">Registrarse</button>
                                 </div>
                             </form>
                         </div>
                         <div id="success-message-container" class="text-center" style="display: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check-circle-fill text-success mb-3" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#22dfc8" class="bi bi-check-circle-fill mb-3" viewBox="0 0 16 16">
                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                             </svg>
                             <h3 class="mb-3">¡Registro Exitoso!</h3>
                             <p>Tu cuenta ha sido creada correctamente.</p>
                             <div class="d-grid">
-                                <button id="register-new-user" class="btn btn-outline-primary">Registrar Nuevo Usuario</button>
+                                <button id="register-new-user" class="btn btn-custom">Registrar Nuevo Usuario</button>
                             </div>
                         </div>
                     </div>

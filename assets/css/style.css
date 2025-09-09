@@ -7,3 +7,25 @@
 .is-invalid {
     border-color: #dc3545 !important;
 }
+
+body {
+    background-image: url('https://geolabs.cloud/wp-content/uploads/2024/05/background-4-04-min.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.btn-custom {
+    background-color: #22dfc8;
+    border-color: #22dfc8;
+    color: #1a202c; /* Un color oscuro para un buen contraste */
+    font-weight: bold;
+}
+
+.btn-custom:hover, .btn-custom:focus, .btn-custom:active {
+    background-color: #1dbca9 !important; /* Un tono ligeramente más oscuro para la interacción */
+    border-color: #1dbca9 !important;
+    color: #1a202c !important;
+    box-shadow: none !important;
+}
